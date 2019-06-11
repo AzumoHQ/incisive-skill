@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
 import requests
@@ -13,6 +14,7 @@ class IncisiveSkill(MycroftSkill):
         # Initialize working variables used within the skill.
         self.sender_id = random.randint(1, 1000)
         self.checklist = False
+        self.last_message = {}
 
     def get_bot_response(self, message):
         url = os.environ.get('BACKEND_URL')
@@ -34,10 +36,20 @@ class IncisiveSkill(MycroftSkill):
         response = self.get_bot_response(message.data.get('utterance'))
         self.checklist = True
         for txt in response.get('text', []):
+            self.last_message = txt
             self.speak(txt['text'], expect_response=True)
+
+    def remind_question(self, data):
+        self.speak(data['text'], expect_response=True)
 
     def converse(self, utterances, lang='en-us'):
         if self.checklist:
+            if not utterances:
+                self.schedule_repeating_event(self.remind_question,
+                                              datetime.now() + timedelta(seconds=30),
+                                              data=self.last_message, name='reminder')
+                return True
+
             if self.voc_match(utterances[0], "Yes") or self.voc_match(utterances[0], "No"):
                 response = self.get_bot_response(utterances[0])
                 for txt in response.get('text', []):
