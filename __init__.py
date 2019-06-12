@@ -56,7 +56,7 @@ class IncisiveSkill(MycroftSkill):
                 self.self.schedule_event(self.remind_question,
                                          datetime.now() + timedelta(seconds=60),
                                          data=self.last_message, name='reminder')
-                return True
+                return False
 
             elif self.voc_match(utterances[0], "Yes") or self.voc_match(utterances[0], "No"):
                 self.first_question = False
