@@ -43,7 +43,7 @@ class IncisiveSkill(MycroftSkill):
     def remind_question(self):
         print('--------')
         self.speak("This is the reminder", expect_response=True)
-        self.cancel_scheduled_event('mmreminder')
+        self.cancel_scheduled_event('mreminder')
         self.cancel_scheduled_event('no_resp_reminder')
 
     def converse(self, utterances, lang='en-us'):
@@ -54,8 +54,8 @@ class IncisiveSkill(MycroftSkill):
                                     None, name='no_resp_reminder')
                 return True
             elif self.voc_match(utterances[0], "No") and self.first_question:
-                self.speak('I am going to remind you in 1 minute ' + str(datetime.now() + timedelta(seconds=60)))
-                self.self.schedule_event(self.remind_question, 30, None, name='mmreminder')
+                self.speak('I am going to remind you in 1 minute')
+                self.self.schedule_event(self.remind_question, 30, None, name='mreminder')
                 return False
 
             elif self.voc_match(utterances[0], "Yes") or self.voc_match(utterances[0], "No"):
