@@ -41,7 +41,7 @@ class IncisiveSkill(MycroftSkill):
             self.speak(txt['text'], expect_response=True)
 
     def remind_question(self, data):
-        self.speak(data['text'], expect_response=True)
+        self.speak(data['data']['text'], expect_response=True)
 
     def converse(self, utterances, lang='en-us'):
         if self.checklist:
