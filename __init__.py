@@ -53,9 +53,9 @@ class IncisiveSkill(MycroftSkill):
                 return True
             elif self.voc_match(utterances[0], "No") and self.first_question:
                 self.speak('I am going to remind you in 1 minute')
-                self.self.schedule_event(self.remind_question,
-                                         datetime.now() + timedelta(seconds=60),
-                                         data=self.last_message, name='reminder')
+                self.self.schedule_repeating_event(self.remind_question,
+                                                   datetime.now() + timedelta(seconds=60),
+                                                   10, data=self.last_message, name='reminder')
                 return False
 
             elif self.voc_match(utterances[0], "Yes") or self.voc_match(utterances[0], "No"):
