@@ -52,7 +52,7 @@ class IncisiveSkill(MycroftSkill):
                                     data=self.last_message, name='no_resp_reminder')
                 return True
             elif self.voc_match(utterances[0], "No") and self.first_question:
-                self.speak(f'I am going to remind you in 1 minute {datetime.now() + timedelta(seconds=60)}')
+                self.speak('I am going to remind you in 1 minute ' + str(datetime.now() + timedelta(seconds=60)))
                 self.self.schedule_repeating_event(self.remind_question,
                                                    datetime.now() + timedelta(seconds=60),
                                                    10, data=self.last_message, name='reminder')
