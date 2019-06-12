@@ -15,6 +15,7 @@ class IncisiveSkill(MycroftSkill):
         self.sender_id = random.randint(1, 1000)
         self.checklist = False
         self.last_message = {}
+        self.first_question = True
 
     def get_bot_response(self, message):
         url = os.environ.get('BACKEND_URL')
@@ -49,8 +50,14 @@ class IncisiveSkill(MycroftSkill):
                                               datetime.now() + timedelta(seconds=30),
                                               data=self.last_message, name='reminder')
                 return True
+            elif self.voc_match(utterances[0], "No") and self.first_question:
+                self.self.schedule_repeating_event(self.remind_question,
+                                                   datetime.now() + timedelta(seconds=60),
+                                                   data=self.last_message, name='reminder')
+                return True
 
-            if self.voc_match(utterances[0], "Yes") or self.voc_match(utterances[0], "No"):
+            elif self.voc_match(utterances[0], "Yes") or self.voc_match(utterances[0], "No"):
+                self.first_question = False
                 response = self.get_bot_response(utterances[0])
                 for txt in response.get('text', []):
                     self.checklist = 'done' not in txt['text']
