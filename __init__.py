@@ -46,14 +46,15 @@ class IncisiveSkill(MycroftSkill):
     def converse(self, utterances, lang='en-us'):
         if self.checklist:
             if not utterances:
-                self.schedule_repeating_event(self.remind_question,
-                                              datetime.now() + timedelta(seconds=30),
-                                              data=self.last_message, name='reminder')
+                self.schedule_event(self.remind_question,
+                                    datetime.now() + timedelta(seconds=30),
+                                    data=self.last_message, name='no_resp_reminder')
                 return True
             elif self.voc_match(utterances[0], "No") and self.first_question:
-                self.self.schedule_repeating_event(self.remind_question,
-                                                   datetime.now() + timedelta(seconds=60),
-                                                   data=self.last_message, name='reminder')
+                self.speak('I am going to remind you in 1 minute')
+                self.self.schedule_event(self.remind_question,
+                                         datetime.now() + timedelta(seconds=60),
+                                         data=self.last_message, name='reminder')
                 return True
 
             elif self.voc_match(utterances[0], "Yes") or self.voc_match(utterances[0], "No"):
