@@ -40,8 +40,8 @@ class IncisiveSkill(MycroftSkill):
             self.last_message = txt
             self.speak(txt['text'], expect_response=True)
 
-    def remind_question(self, message):
-        print(message.data)
+    def remind_question(self):
+        print('--------')
         self.speak("This is the reminder", expect_response=True)
 
     def converse(self, utterances, lang='en-us'):
