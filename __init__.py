@@ -15,7 +15,7 @@ class IncisiveSkill(MycroftSkill):
         self.sender_id = random.randint(1, 1000)
         self.checklist = False
         self.last_message = {}
-        self.first_question = True
+        self.first_question = False
 
     def get_bot_response(self, message):
         url = os.environ.get('BACKEND_URL')
@@ -36,27 +36,26 @@ class IncisiveSkill(MycroftSkill):
     def handle_checklist_intent(self, message):
         response = self.get_bot_response(message.data.get('utterance'))
         self.checklist = True
+        self.first_question
         for txt in response.get('text', []):
             self.last_message = txt
             self.speak(txt['text'], expect_response=True)
 
     def remind_question(self):
-        print('--------')
-        self.speak("This is the reminder", expect_response=True)
+        self.speak(self.last_message['txt'], expect_response=True)
         self.cancel_scheduled_event('mreminder')
         self.cancel_scheduled_event('no_resp_reminder')
 
     def converse(self, utterances, lang='en-us'):
         if self.checklist:
-            if not utterances:
-                self.speak("Entro aca")
+            if not utterances and self.first_question:
                 self.schedule_event(self.remind_question, 30,
                                     None, name='no_resp_reminder')
                 return True
             elif self.voc_match(utterances[0], "No") and self.first_question:
                 self.speak('I am going to remind you in 1 minute')
-                self.self.schedule_event(self.remind_question, 30, None, name='mreminder')
-                return False
+                self.schedule_event(self.remind_question, 60, None, name='mreminder')
+                return True
 
             elif self.voc_match(utterances[0], "Yes") or self.voc_match(utterances[0], "No"):
                 self.first_question = False
