@@ -36,7 +36,7 @@ class IncisiveSkill(MycroftSkill):
     def handle_checklist_intent(self, message):
         response = self.get_bot_response(message.data.get('utterance'))
         self.checklist = True
-        self.first_question
+        self.first_question = True
         for txt in response.get('text', []):
             self.last_message = txt
             self.speak(txt['text'], expect_response=True)
