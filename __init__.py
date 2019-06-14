@@ -40,9 +40,9 @@ class IncisiveSkill(MycroftSkill):
             self.last_message = txt
             self.speak(txt['text'], expect_response=True)
 
-    @intent_handler(IntentBuilder("").require("Wait"))
+    @intent_handler(IntentBuilder("").require("Wait").require("Number"))
     def handle_wait_intent(self, message):
-        number = message.data.get('number')
+        number = message.data.get('Number')
         self.speak('I am going to remind you in {} minutes'.format(number))
         self.schedule_event(self.remind_question, int(number)*60, None, name='wait_utter')
 

@@ -1,0 +1,1 @@
+(wait|hold on|give me) (?P<Number>.*) (minute|minutes)

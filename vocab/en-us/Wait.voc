@@ -1,5 +1,3 @@
-give me {number} minutes
-wait {number} minutes
-hold on {number} minutes
-hold {number} minutes
-wait for {number} minutes
+give me
+wait
+hold on
