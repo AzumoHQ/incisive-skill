@@ -47,6 +47,7 @@ class IncisiveSkill(MycroftSkill):
         self.schedule_event(self.remind_question, int(number)*60, None, name='wait_utter')
 
     def remind_question(self):
+        print(self.last_message)
         self.speak(self.last_message['txt'], expect_response=True)
         self.cancel_scheduled_event('mreminder')
         self.cancel_scheduled_event('no_resp_reminder')
