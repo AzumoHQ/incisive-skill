@@ -17,7 +17,7 @@ class IncisiveSkill(MycroftSkill):
         self.first_question = False
 
     def get_bot_response(self, message):
-        url = os.environ.get('BACKEND_URL')
+        url = 'https://incisive.chatbot-ninja.net/ace-back'
         rq = requests.post(url + '/bot/chat',
                            data={'sender': self.sender_id,
                                  'message': message})
