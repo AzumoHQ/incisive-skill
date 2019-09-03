@@ -13,7 +13,7 @@ class IncisiveSkill(MycroftSkill):
         # Initialize working variables used within the skill.
         self.sender_id = random.randint(1, 1000)
         self.checklist = False
-        self.last_message = {'txt': ''}
+        self.last_message = {'text': ''}
         self.first_question = False
 
     def get_bot_response(self, message):
@@ -48,7 +48,7 @@ class IncisiveSkill(MycroftSkill):
 
     def remind_question(self):
         print(self.last_message)
-        self.speak(self.last_message['txt'], expect_response=True)
+        self.speak(self.last_message['text'], expect_response=True)
         self.cancel_scheduled_event('mreminder')
         self.cancel_scheduled_event('no_resp_reminder')
         self.cancel_scheduled_event('wait_utter')
